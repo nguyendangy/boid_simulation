@@ -91,7 +91,8 @@ dragging_stick = False  # Trạng thái kéo stick
 
 # Boid class
 class Boid:
-    def __init__(self, x, y):
+    def __init__(self, x, y): # This function is adapted from [https://github.com/pramodaya/GeneticAlgorithms]
+
         self.location = pygame.Vector2(x, y)  # Tọa độ vị trí
         self.movement = pygame.Vector2(random.uniform(-1, 1),
                                        random.uniform(-1, 1)).normalize() * BASE_SPEED  # Tốc độ di chuyển
@@ -115,6 +116,7 @@ class Boid:
         self.location += self.movement
 
         # Wrap around boid_screen edges
+        # This part is adapted from [https://github.com/pramodaya/GeneticAlgorithms]
         if self.location.x < 0:
             self.location.x = Width_screen
         elif self.location.x > Width_screen:
@@ -123,6 +125,7 @@ class Boid:
             self.location.y = Height_screen
         elif self.location.y > Height_screen:
             self.location.y = 0
+        #end part
 
     def align(self, boids, fog_density):
         avg_movement = pygame.Vector2(0, 0)
@@ -281,16 +284,17 @@ def display_weather_status(boid_screen):
 
 
 # Main simulation loop
+# This part is adapted from [https://github.com/pramodaya/GeneticAlgorithms]
 boids = [Boid(random.randint(0, Width_screen), random.randint(0, Height_screen)) for _ in range(NUM_BOIDS)]
 #set running = true
 running = True
 #set clock by pygame
 clock_time = pygame.time.Clock()
+#end part
 
 while running:
     # experiment
     if experiment:
-
         current_time = time.time()
         if start_time == None:
             start_time = current_time
@@ -318,6 +322,7 @@ while running:
             weather_enabled = not weather_enabled
 
     # Event handling loop
+    # This part is adapted from [https://github.com/pramodaya/GeneticAlgorithms]
     for event in pygame.event.get():  # Iterate through all events in the event queue
         if event.type == pygame.QUIT:  # Check if the user closes the window
             running = False  # Set running to False to exit the game loop
@@ -325,6 +330,7 @@ while running:
         handle_button_click(event)  # Call the function to handle button-related events
             # Check if a key is pressed or released
         handle_stick_event(event)  # Call the function to handle stick-related (keyboard) events
+    #end part
 
     # Clear the boid_screen
     boid_screen.fill(BLACK)
